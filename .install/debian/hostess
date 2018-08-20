@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+RELEASE="v0.3.0"
+BINARY="hostess_linux_amd64"
+LOCATION="/usr/local/bin/hostess"
+
+wget -q --show-progress https://github.com/cbednarski/hostess/releases/download/$RELEASE/$BINARY
+printf "Asking for permission to move binary to $LOCATION...\n"
+sudo mv $BINARY $LOCATION
+sudo chmod +x $LOCATION

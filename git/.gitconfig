@@ -1,0 +1,11 @@
+[user]
+	name = Hubert LOBIT
+	email = hlo@escaux.com
+[core]
+	excludesfile = ~/.gitignore_global
+[commit]
+	template = ~/.gitmessage
+[log]
+	date = relative
+[format]
+	pretty = format:%C(auto,yellow)%h%C(auto,magenta)% G? %C(auto,blue)%>(14,trunc)%ad %C(auto,green)%<(14,trunc)%aN %C(auto,reset)%s%C(auto,bold red)%d
