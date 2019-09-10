@@ -1,0 +1,20 @@
+#/usr/bin/env bash
+#
+_vpn_completions()
+{
+  local cur prev command
+
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  command="$(printf '%s ' "${COMP_WORDS[@]::$COMP_CWORD}")"
+  completions="$(${command} --completions)"
+  exit_status="$(echo $?)"
+
+  if [[ "$exit_status" == 0 ]]; then
+    COMPREPLY=( $(compgen -W "${completions}" -- ${cur}) )
+    return 0
+  fi
+}
+
+complete -F _vpn_completions vpn

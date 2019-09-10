@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+VPN_DIR="$HOME/.vpn"
+OPENVPN_BIN="/usr/sbin/openvpn"
+
+IFS=$'\n'
+VPNS=($(find "$VPN_DIR/"* -maxdepth 0 -type d -printf "%f\n"))
+unset IFS
+
+for LASTARG; do true; done
+if [[ "$LASTARG" == "--completions" ]]; then
+  if [[ "$#" -eq "1" ]]; then
+    printf '%s ' "${VPNS[@]}"
+  fi
+  exit 0
+fi
+
+if [[ " ${VPNS[@]} " =~ " $1 " ]]; then
+  (cd "$VPN_DIR/$1" && sudo "$OPENVPN_BIN" "$1.ovpn")
+else
+  printf "'$1' is unknown VPN\n"
+  exit 1
+fi
