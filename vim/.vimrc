@@ -116,3 +116,19 @@ nnoremap <silent> <C-s> :%s/\s\+$//e<cr>
 
 set exrc
 set secure
+
+" Put plugins and dictionaries in this dir
+let vimDir = '$HOME/.vim'
+let &runtimepath.=','.vimDir
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+    let myUndoDir = expand(vimDir . '/undodir')
+    " Create dirs
+    call system('mkdir ' . vimDir)
+    call system('mkdir ' . myUndoDir)
+    let &undodir = myUndoDir
+    set undofile
+    set undolevels=1000
+    set undoreload=10000
+endif
