@@ -1,6 +1,6 @@
 [user]
 	name = Hubert LOBIT
-	email = hlo@escaux.com
+	email = dev@change.me
 [core]
 	excludesfile = ~/.gitignore_global
 [commit]
