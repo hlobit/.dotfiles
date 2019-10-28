@@ -1,18 +1,19 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/hlo/.fzf/bin* ]]; then
-  export PATH="$PATH:/home/hlo/.fzf/bin"
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+  export PATH="$PATH:$HOME/.fzf/bin"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/home/hlo/.fzf/shell/completion.bash" 2> /dev/null
+[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.bash" 2> /dev/null
 
 # Key bindings
 # ------------
-source "/home/hlo/.fzf/shell/key-bindings.bash"
+source "$HOME/.fzf/shell/key-bindings.bash"
 
 # Default command
 # ------------
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --color=always'
 export FZF_DEFAULT_OPTS='--ansi'
