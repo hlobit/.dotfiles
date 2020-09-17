@@ -1,6 +1,6 @@
 #/usr/bin/env bash
 #
-_vpn_completions()
+_dashdash_completions()
 {
   local cur prev command
 
@@ -17,4 +17,5 @@ _vpn_completions()
   fi
 }
 
-complete -F _vpn_completions vpn
+complete -F _dashdash_completions vpn
+complete -F _dashdash_completions enter

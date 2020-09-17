@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+LOCAL_REGISTRY="localhost.localdomain:5000"
+MOUNT_POINT="/app"
+
+IFS=$'\n'
+IMAGES=($(wget -q -O- http://"$LOCAL_REGISTRY"/v2/_catalog | jq -r .repositories[]))
+unset IFS
+
+for LASTARG; do true; done
+if [[ "$LASTARG" == "--completions" ]]; then
+  if [[ "$#" -eq "1" ]]; then
+    printf '%s ' "${IMAGES[@]}"
+  fi
+  exit 0
+fi
+
+if [[ " ${IMAGES[@]} " =~ " $1 " ]]; then
+  docker run --rm -t -i -w "$MOUNT_POINT" -v "$PWD:$MOUNT_POINT" -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK "$LOCAL_REGISTRY"/"$1" bash
+else
+  printf "Error: '$1' is unknown local docker image\n"
+  # TODO: try image remote
+  exit 1
+fi
