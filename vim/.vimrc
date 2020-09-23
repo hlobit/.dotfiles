@@ -24,6 +24,7 @@ Plug 'junegunn/fzf.vim'
 
 " lang
 " Plug 'plasticboy/vim-markdown'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
 
