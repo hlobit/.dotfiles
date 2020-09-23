@@ -37,7 +37,7 @@ Plug 'moll/vim-bbye'
 Plug 'google/vim-searchindex'
 
 " color
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 
 " heroic
 Plug 'wikitopian/hardmode'
