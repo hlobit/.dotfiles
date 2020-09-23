@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 VPN_DIR="$HOME/.vpn"
-OPENVPN_BIN="/usr/sbin/openvpn"
 
 IFS=$'\n'
-VPNS=($(find "$VPN_DIR/"* -maxdepth 0 -type d -printf "%f\n"))
+VPNS=()
+if [[ -d "$VPN_DIR" ]]; then
+  VPNS=($(find "$VPN_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n"))
+fi
 unset IFS
 
 for LASTARG; do true; done
@@ -16,8 +18,13 @@ if [[ "$LASTARG" == "--completions" ]]; then
 fi
 
 if [[ " ${VPNS[@]} " =~ " $1 " ]]; then
-  (cd "$VPN_DIR/$1" && sudo "$OPENVPN_BIN" "$1.ovpn")
+  OPENVPN_BIN="$(sudo which openvpn)"
+  if [[ ! -x "$OPENVPN_BIN" ]]; then
+    printf "Error: 'openvpn' binary not found in PATH\n"
+    exit 1
+  fi
+  (cd "$VPN_DIR/$1" && sudo "$OPENVPN_BIN" --config "$1.ovpn" --verb 3)
 else
-  printf "'$1' is unknown VPN\n"
+  printf "Error: '$1' is unknown VPN\n"
   exit 1
 fi
