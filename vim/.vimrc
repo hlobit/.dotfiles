@@ -94,7 +94,11 @@ cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
 autocmd FileType * set shiftwidth=2|set expandtab
 autocmd Filetype gitcommit setlocal spell textwidth=72
 autocmd FileType make setlocal noexpandtab nosmarttab
-autocmd FileType python set tabstop=4|set shiftwidth=4
+
+" python mode
+autocmd FileType python set tabstop=4|set shiftwidth=4|setlocal nonumber
+let g:pymode_lint_on_write = 0
+let g:pymode_options_colorcolumn = 0
 
 " you'd better have them visible
 set list
@@ -133,3 +137,6 @@ if has('persistent_undo')
     set undolevels=1000
     set undoreload=10000
 endif
+
+filetype plugin indent on
+syntax on
