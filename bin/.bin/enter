@@ -16,9 +16,22 @@ if [[ "$LASTARG" == "--completions" ]]; then
 fi
 
 if [[ " ${IMAGES[@]} " =~ " $1 " ]]; then
-  docker run --rm -t -i -w "$MOUNT_POINT" -v "$PWD:$MOUNT_POINT" -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK "$LOCAL_REGISTRY"/"$1" bash
+  IMAGE="$LOCAL_REGISTRY"/"$1"
 else
-  printf "Error: '$1' is unknown local docker image\n"
-  # TODO: try image remote
-  exit 1
+  printf "'$1' is unknown local docker image\n"
+  printf "Trying to fetch remote image...\n"
+  REPO="library/${1%%:*}"
+  if [ "$(expr index $1 ':')" == "0" ] ; then
+    TAG="current"
+  else
+    TAG="${1##*:}"
+  fi
+  if ! curl --silent -f -lL https://hub.docker.com/v2/repositories/$REPO/tags/$TAG > /dev/null ; then
+    printf "Image not found.\n"
+    exit 1
+  else
+    IMAGE="$1"
+  fi
 fi
+
+docker run --rm -t -i -w "$MOUNT_POINT" -v "$PWD:$MOUNT_POINT" -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK "$IMAGE" bash
